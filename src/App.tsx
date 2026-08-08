@@ -46,8 +46,8 @@ const pastEvents = [
   { title: '고전 인문학 MIND POINT', category: '인문 프로그램', description: '나를 점검하고 방향을 찾는 시간', image: mindPointPoster },
   { title: '유쾌한 소셜링', category: '소셜링', description: '처음이어도 재미있게 섞이는 놀이형 모임', image: socialingPoster },
   { title: 'Mood of the day', category: '취향 클래스', description: '향으로 오늘의 기분을 표현하는 클래스', image: perfumePoster },
-  { title: '정상 시청', category: '계절 행사', description: '계절을 함께 즐기는 야외 문화 행사', image: picnicPoster },
-  { title: '해갈공장', category: '마음 돌봄', description: '스트레스를 가볍게 풀어 내는 참여형 팝업', image: haegalPoster },
+  { title: '정상실종', category: '뮤지컬', description: '계절의 설렘을 무대에서 만나는 뮤지컬', image: picnicPoster },
+  { title: '해탈공방', category: '스트레스 해소 팝업', description: '스트레스를 가볍게 풀어 내는 참여형 팝업 행사', image: haegalPoster },
 ] as const
 
 const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
