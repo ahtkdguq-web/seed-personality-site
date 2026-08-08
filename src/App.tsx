@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 import EmotionCheck from './EmotionCheck'
 import LifeGraph from './LifeGraph'
@@ -29,17 +29,28 @@ function App() {
   const winner = score.indexOf(Math.max(...score))
   const current = questions[step]
 
-  const startQuiz = () => { setScreen('quiz'); setStep(0); window.scrollTo({ top: 0, behavior: 'smooth' }) }
-  const startEmotion = () => { setScreen('emotion'); window.scrollTo({ top: 0, behavior: 'smooth' }) }
-  const startLife = () => { setScreen('life'); window.scrollTo({ top: 0, behavior: 'smooth' }) }
+  const openTest = (nextScreen: 'quiz' | 'emotion' | 'life') => {
+    window.history.pushState({ seedTest: nextScreen }, '', `#${nextScreen}`)
+    setScreen(nextScreen)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+  const startQuiz = () => { setStep(0); openTest('quiz') }
+  const startEmotion = () => openTest('emotion')
+  const startLife = () => openTest('life')
   const choose = (value: number) => {
     setAnswers((previous) => previous.map((answer, index) => index === step ? value : answer))
     if (step < questions.length - 1) window.setTimeout(() => setStep(step + 1), 130)
   }
-  const resetQuiz = () => { setAnswers(Array(questions.length).fill(0)); setStep(0); setScreen('home') }
+  const resetQuiz = () => { setAnswers(Array(questions.length).fill(0)); setStep(0); setScreen('home'); window.history.replaceState({}, '', window.location.pathname) }
 
-  if (screen === 'emotion') return <EmotionCheck onBack={() => setScreen('home')} />
-  if (screen === 'life') return <LifeGraph onBack={() => setScreen('home')} />
+  useEffect(() => {
+    const returnToHome = () => { setAnswers(Array(questions.length).fill(0)); setStep(0); setScreen('home') }
+    window.addEventListener('popstate', returnToHome)
+    return () => window.removeEventListener('popstate', returnToHome)
+  }, [])
+
+  if (screen === 'emotion') return <EmotionCheck onBack={resetQuiz} />
+  if (screen === 'life') return <LifeGraph onBack={resetQuiz} />
 
   if (screen === 'quiz') return <main className="quiz-page">
     <button className="brand plain" onClick={resetQuiz}><span>♧</span> SEED</button>
