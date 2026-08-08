@@ -2,6 +2,14 @@ import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 import EmotionCheck from './EmotionCheck'
 import LifeGraph from './LifeGraph'
+import textTripPoster from './event-text-trip.png'
+import lipBalmPoster from './event-lip-balm.png'
+import bibleAcademyPoster from './event-bible-academy.png'
+import mindPointPoster from './event-mind-point.png'
+import socialingPoster from './event-socialing.png'
+import perfumePoster from './event-perfume.png'
+import picnicPoster from './event-picnic.png'
+import haegalPoster from './event-haegal.png'
 
 const questions = [
   '나는 모든 일을 개선하기 위해 깊이 생각해서 행동한다', '나는 다른 사람들보다 근면하며 책임감이 강하다', '나는 정직하고 자제력이 있는 사람이다', '나의 행동은 원칙에 기초를 둔다', '나는 완벽을 위해 끝까지 참고 노력한다', '나는 규칙을 잘 지키며 엄격하다', '나는 다른 사람들의 신임을 얻을 수 있다', '나는 정의감이 강하고 근면하다', '나는 주로 나의 양심과 이성에 따른다',
@@ -28,6 +36,17 @@ const testimonials = [
   ['“혼자 고민하던 시간에 따뜻한 대화가 더해지니 용기가 생겼어요.”', '정○우', '29세 · 마음 모임'],
   ['“빠르게 친해지는 것보다 서로의 속도를 존중해 주는 분위기가 좋았어요.”', '한○아', '23세 · 커뮤니티'],
   ['“내가 좋아하는 것을 함께 즐길 사람이 있다는 게 생각보다 큰 힘이 됐어요.”', '서○민', '26세 · 취향 모임'],
+] as const
+
+const pastEvents = [
+  { title: '텍스트 트립', category: '독서 · 인문', description: '책을 읽고 생각을 나누는 시간', image: textTripPoster },
+  { title: '립밤 원데이 클래스', category: '원데이 클래스', description: '손으로 만들며 나를 돌보는 시간', image: lipBalmPoster },
+  { title: '바이블 아카데미', category: '아카데미', description: '배움과 대화로 삶의 질문을 나누는 시간', image: bibleAcademyPoster },
+  { title: '고전 인문학 MIND POINT', category: '인문 프로그램', description: '나를 점검하고 방향을 찾는 시간', image: mindPointPoster },
+  { title: '유쾌한 소셜링', category: '소셜링', description: '처음이어도 재미있게 섞이는 놀이형 모임', image: socialingPoster },
+  { title: 'Mood of the day', category: '취향 클래스', description: '향으로 오늘의 기분을 표현하는 클래스', image: perfumePoster },
+  { title: '정상 시청', category: '계절 행사', description: '계절을 함께 즐기는 야외 문화 행사', image: picnicPoster },
+  { title: '해갈공장', category: '마음 돌봄', description: '스트레스를 가볍게 풀어 내는 참여형 팝업', image: haegalPoster },
 ] as const
 
 const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
@@ -82,11 +101,12 @@ function App() {
   </main>
 
   return <div className="site">
-    <header><a className="brand" href="#top"><span>♧</span> SEED</a><nav><button onClick={() => scrollTo('programs')}>프로그램</button><button onClick={() => scrollTo('why')}>Why SEED?</button><button onClick={() => scrollTo('stories')}>후기</button><button onClick={() => scrollTo('pricing')}>요금제</button></nav><div className="head-actions"><button className="login">↪ 코치 로그인</button><button className="small-cta" onClick={startQuiz}>시작하기</button></div></header>
+    <header><a className="brand" href="#top"><span>♧</span> SEED</a><nav><button onClick={() => scrollTo('programs')}>프로그램</button><button onClick={() => scrollTo('why')}>Why SEED?</button><button onClick={() => scrollTo('events')}>행사</button><button onClick={() => scrollTo('stories')}>후기</button><button onClick={() => scrollTo('pricing')}>요금제</button></nav><div className="head-actions"><button className="login">↪ 코치 로그인</button><button className="small-cta" onClick={startQuiz}>시작하기</button></div></header>
     <main id="top">
       <section className="hero hero-culture"><div className="hero-content"><p className="culture-chip"><span>✦</span> FOR YOUNG CULTURE</p><h1>좋은 사람들과,<br /><em>더 행복한 오늘을.</em></h1><p>SEED는 청년들의 삶에 건강한 연결을 심는 문화 콘텐츠 스타트업입니다.<br />편안한 모임과 다채로운 행사에서, 나답게 웃고 성장할 순간을 만듭니다.</p><div className="hero-actions"><button className="cta" onClick={() => scrollTo('programs')}>SEED 프로그램 보기 <span>→</span></button><button className="ghost" onClick={startEmotion}>나를 알아가는 시간</button></div></div><div className="culture-scene" aria-hidden="true"><div className="sun-disc" /><div className="people people-one">●</div><div className="people people-two">●</div><div className="people people-three">●</div><div className="event-card event-card-one"><span>SEED MEETUP</span><b>느슨하지만<br />따뜻한 연결</b><i>매주 목요일 · 성수</i></div><div className="event-card event-card-two"><span>NEXT EVENT</span><b>우리의<br />봄 피크닉</b><i>04. 20 · 한강공원</i></div><div className="culture-leaf leaf-one">✳</div><div className="culture-leaf leaf-two">✦</div></div></section>
       <section id="programs" className="section"><p className="eyebrow">SEED PROGRAM</p><h2>당신의 가능성을 발견하는<br />SEED 프로그램</h2><div className="program-grid"><article><div className="icon">⌘</div><p>씨앗의 DNA</p><h3>성격 유형 검사</h3><span>81가지 질문으로 나만의 고유한 기질과 성장 방향을 발견해 보세요.</span><button onClick={startQuiz}>검사 시작하기 →</button></article><article><div className="icon">♡</div><p>토양과 수분</p><h3>핵심 감정 검사</h3><span>지금 내 마음을 움직이는 감정을 살피고 건강한 심리 환경을 찾아요.</span><button onClick={startEmotion}>검사 시작하기 →</button></article><article><div className="icon">↗</div><p>성장의 기록</p><h3>인생 그래프</h3><span>지나온 경험 속에서 나만의 회복력과 행복의 패턴을 찾아보세요.</span><button onClick={startLife}>그래프 만들기 →</button></article></div></section>
       <section id="why" className="why"><div><p className="eyebrow">WHY SEED</p><h2>성장은 나를<br />이해하는 데서 시작됩니다.</h2><p>SEED는 정답을 대신 정해주지 않습니다.<br />나의 고유함을 발견하고, 나다운 방향으로 걸어갈 수 있도록 곁에서 돕습니다.</p></div><div className="benefits"><article><b>01</b><h3>나만을 위한 진단</h3><p>검사 결과를 숫자가 아닌 나만의 언어로 이해할 수 있어요.</p></article><article><b>02</b><h3>작은 실천의 기록</h3><p>오늘의 감정과 성장을 쌓으며 나에게 맞는 리듬을 찾아요.</p></article><article><b>03</b><h3>따뜻한 연결</h3><p>나와 비슷한 고민을 가진 사람들과 안전하게 대화해요.</p></article></div></section>
+      <section id="events" className="events-section"><div className="events-intro"><p className="eyebrow">PAST EVENTS</p><h2>SEED는 이런<br /><em>시간을 만듭니다.</em></h2><p>읽고, 만들고, 대화하고, 쉬어가는 다채로운 문화 경험. SEED는 청년들의 오늘에 건강한 연결을 심어 왔습니다.</p></div><div className="event-gallery">{pastEvents.map((event) => <article className="event-showcase" key={event.title}><img src={event.image} alt={`${event.title} 행사 포스터`} /><div className="event-caption"><span>{event.category}</span><h3>{event.title}</h3><p>{event.description}</p></div></article>)}</div></section>
       <section id="stories" className="section stories"><div className="stories-heading"><p className="eyebrow">SEED STORIES</p><h2>다른 사람들은<br />어땠는지 알아보세요</h2><p>SEED와 함께 자신만의 속도와 연결을 찾아가고 있는 이야기를 만나 보세요.</p></div><div className="review-marquee" aria-label="SEED 참여자 후기"><div className="review-track">{[...testimonials, ...testimonials].map(([quote, name, detail], index) => <article key={`${name}-${index}`}><span className="quote-mark">“</span><p>{quote}</p><footer><b>{name}</b><span>{detail}</span></footer></article>)}</div></div></section>
       <section id="pricing" className="pricing"><p className="eyebrow">MEMBERSHIP</p><h2>당신에게 맞는 플랜을<br />선택하세요</h2><p>모든 플랜에서 SEED의 핵심 기능을 자유롭게 이용할 수 있습니다.</p><div className="price-grid"><article><h3>월간 구독</h3><p>부담 없이 시작하고 싶다면</p><strong>79,000<small>원 / 월</small></strong><ul><li>전체 콘텐츠 무제한 이용</li><li>커뮤니티 참여 가능</li><li>월간 성장 리포트</li></ul><button onClick={startQuiz}>월간 플랜으로 시작</button></article><article className="featured"><em>가장 인기 있는 선택</em><h3>연간 구독</h3><p>가장 합리적인 선택</p><strong>59,000<small>원 / 월</small></strong><small>연 708,000원 · 25% 이상 할인</small><ul><li>전체 콘텐츠 무제한 이용</li><li>커뮤니티 참여 가능</li><li>월간 성장 리포트</li><li>전문가 1:1 코칭 세션</li></ul><button onClick={startQuiz}>할인받고 시작하기</button></article></div></section>
     </main><footer className="site-footer"><a className="brand" href="#top"><span>♧</span> SEED</a><p>나답게 자라는 모든 순간을 응원합니다.</p><small>© 2026 SEED. All rights reserved.</small></footer>
