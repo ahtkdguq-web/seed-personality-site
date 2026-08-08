@@ -25,6 +25,20 @@
 /* Larger event category labels for poster readability */
 .event-caption span{display:inline-block;margin-bottom:12px;padding:6px 9px;border-radius:99px;background:#ffffff1f;color:#fff1c8;font-size:13px;font-weight:800;letter-spacing:1.1px;line-height:1}
 
+/* Scroll-driven poster sequence */
+@supports (animation-timeline:view()){
+  .event-showcase{--poster-tilt:-4deg;animation:poster-sequence-in 1s cubic-bezier(.18,.72,.22,1) both;animation-timeline:view();animation-range:entry 2% cover 48%;will-change:transform,opacity}
+  .event-showcase:nth-child(2){--poster-tilt:4deg;animation-range:entry 4% cover 52%}
+  .event-showcase:nth-child(3){--poster-tilt:-3deg;animation-range:entry 7% cover 51%}
+  .event-showcase:nth-child(4){--poster-tilt:3deg;animation-range:entry 3% cover 48%}
+  .event-showcase:nth-child(5){--poster-tilt:-5deg;animation-range:entry 6% cover 52%}
+  .event-showcase:nth-child(6){--poster-tilt:4deg;animation-range:entry 4% cover 50%}
+  .event-showcase:nth-child(7){--poster-tilt:-3deg;animation-range:entry 6% cover 52%}
+  .event-showcase:nth-child(8){--poster-tilt:3deg;animation-range:entry 5% cover 50%}
+}
+@keyframes poster-sequence-in{from{opacity:0;transform:translateY(76px) rotate(var(--poster-tilt)) scale(.93);filter:saturate(.8) brightness(.94)}60%{opacity:1}to{opacity:1;transform:translateY(0) rotate(0) scale(1);filter:saturate(1) brightness(1)}}
+@media(prefers-reduced-motion:reduce){.event-showcase{animation:none!important;opacity:1!important;transform:none!important;filter:none!important}}
+
 /* Membership: guide users from value to the right plan */
 .membership .plan-card{display:flex;flex-direction:column}.membership .price-grid .featured>em{position:static;display:inline-flex;align-self:flex-start;margin:0 0 14px;padding:7px 10px;border-radius:99px;background:#ef9279;color:#fff;font-size:11px;font-style:normal;font-weight:800}.membership .price-grid .plan-card ul{flex:1}.membership .price-grid .plan-card>button{margin-top:auto}
 .pricing .membership-foot{margin:32px auto 0!important}
