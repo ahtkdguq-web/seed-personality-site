@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react'
 import './App.css'
+import EmotionCheck from './EmotionCheck'
+import LifeGraph from './LifeGraph'
 
 const questions = [
   '나는 모든 일을 개선하기 위해 깊이 생각해서 행동한다', '나는 다른 사람들보다 근면하며 책임감이 강하다', '나는 정직하고 자제력이 있는 사람이다', '나의 행동은 원칙에 기초를 둔다', '나는 완벽을 위해 끝까지 참고 노력한다', '나는 규칙을 잘 지키며 엄격하다', '나는 다른 사람들의 신임을 얻을 수 있다', '나는 정의감이 강하고 근면하다', '나는 주로 나의 양심과 이성에 따른다',
@@ -20,7 +22,7 @@ const types = [
 const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
 
 function App() {
-  const [screen, setScreen] = useState<'home' | 'quiz' | 'result'>('home')
+  const [screen, setScreen] = useState<'home' | 'quiz' | 'result' | 'emotion' | 'life'>('home')
   const [step, setStep] = useState(0)
   const [answers, setAnswers] = useState<number[]>(Array(questions.length).fill(0))
   const score = useMemo(() => types.map((_, index) => answers.slice(index * 9, index * 9 + 9).reduce((sum, value) => sum + value, 0)), [answers])
@@ -28,11 +30,16 @@ function App() {
   const current = questions[step]
 
   const startQuiz = () => { setScreen('quiz'); setStep(0); window.scrollTo({ top: 0, behavior: 'smooth' }) }
+  const startEmotion = () => { setScreen('emotion'); window.scrollTo({ top: 0, behavior: 'smooth' }) }
+  const startLife = () => { setScreen('life'); window.scrollTo({ top: 0, behavior: 'smooth' }) }
   const choose = (value: number) => {
     setAnswers((previous) => previous.map((answer, index) => index === step ? value : answer))
     if (step < questions.length - 1) window.setTimeout(() => setStep(step + 1), 130)
   }
   const resetQuiz = () => { setAnswers(Array(questions.length).fill(0)); setStep(0); setScreen('home') }
+
+  if (screen === 'emotion') return <EmotionCheck onBack={() => setScreen('home')} />
+  if (screen === 'life') return <LifeGraph onBack={() => setScreen('home')} />
 
   if (screen === 'quiz') return <main className="quiz-page">
     <button className="brand plain" onClick={resetQuiz}><span>♧</span> SEED</button>
@@ -56,7 +63,7 @@ function App() {
     <header><a className="brand" href="#top"><span>♧</span> SEED</a><nav><button onClick={() => scrollTo('programs')}>프로그램</button><button onClick={() => scrollTo('why')}>Why SEED?</button><button onClick={() => scrollTo('stories')}>후기</button><button onClick={() => scrollTo('pricing')}>요금제</button></nav><div className="head-actions"><button className="login">↪ 코치 로그인</button><button className="small-cta" onClick={startQuiz}>시작하기</button></div></header>
     <main id="top">
       <section className="hero"><div className="hero-content"><p className="eyebrow light">Grow in your own way</p><h1>당신이라는 씨앗이<br />제대로 싹틔울 수 있도록</h1><p>“나는 어떤 사람일까?”라는 질문이 막막하게 느껴질 때,<br />SEED는 당신만의 선명한 성장 지도를 그려냅니다.</p><div><button className="cta" onClick={() => scrollTo('programs')}>프로그램 살펴보기</button><button className="ghost" onClick={startQuiz}>검사 바로 시작하기</button></div></div><div className="sprout sprout-one">✦</div><div className="sprout sprout-two">⌁</div></section>
-      <section id="programs" className="section"><p className="eyebrow">SEED PROGRAM</p><h2>당신의 가능성을 발견하는<br />SEED 프로그램</h2><div className="program-grid"><article><div className="icon">⌘</div><p>씨앗의 DNA</p><h3>성격 유형 검사</h3><span>81가지 질문으로 나만의 고유한 기질과 성장 방향을 발견해 보세요.</span><button onClick={startQuiz}>검사 시작하기 →</button></article><article><div className="icon">♡</div><p>토양과 수분</p><h3>핵심 감정 검사</h3><span>지금 내 마음을 움직이는 감정을 살피고 건강한 심리 환경을 찾아요.</span><button>준비 중</button></article><article><div className="icon">↗</div><p>성장의 기록</p><h3>인생 그래프</h3><span>지나온 경험 속에서 나만의 회복력과 행복의 패턴을 찾아보세요.</span><button>준비 중</button></article></div></section>
+      <section id="programs" className="section"><p className="eyebrow">SEED PROGRAM</p><h2>당신의 가능성을 발견하는<br />SEED 프로그램</h2><div className="program-grid"><article><div className="icon">⌘</div><p>씨앗의 DNA</p><h3>성격 유형 검사</h3><span>81가지 질문으로 나만의 고유한 기질과 성장 방향을 발견해 보세요.</span><button onClick={startQuiz}>검사 시작하기 →</button></article><article><div className="icon">♡</div><p>토양과 수분</p><h3>핵심 감정 검사</h3><span>지금 내 마음을 움직이는 감정을 살피고 건강한 심리 환경을 찾아요.</span><button onClick={startEmotion}>검사 시작하기 →</button></article><article><div className="icon">↗</div><p>성장의 기록</p><h3>인생 그래프</h3><span>지나온 경험 속에서 나만의 회복력과 행복의 패턴을 찾아보세요.</span><button onClick={startLife}>그래프 만들기 →</button></article></div></section>
       <section id="why" className="why"><div><p className="eyebrow">WHY SEED</p><h2>성장은 나를<br />이해하는 데서 시작됩니다.</h2><p>SEED는 정답을 대신 정해주지 않습니다.<br />나의 고유함을 발견하고, 나다운 방향으로 걸어갈 수 있도록 곁에서 돕습니다.</p></div><div className="benefits"><article><b>01</b><h3>나만을 위한 진단</h3><p>검사 결과를 숫자가 아닌 나만의 언어로 이해할 수 있어요.</p></article><article><b>02</b><h3>작은 실천의 기록</h3><p>오늘의 감정과 성장을 쌓으며 나에게 맞는 리듬을 찾아요.</p></article><article><b>03</b><h3>따뜻한 연결</h3><p>나와 비슷한 고민을 가진 사람들과 안전하게 대화해요.</p></article></div></section>
       <section id="stories" className="section stories"><p className="eyebrow">SEED STORIES</p><h2>다른 사람들은<br />어땠는지 알아보세요</h2><div className="story-grid"><article>“나를 억지로 바꾸려 하기보다, 내 모습 그대로의 강점을 찾게 됐어요.”<footer><b>최○린</b><span>26세 · 성격 유형 검사</span></footer></article><article>“막막했던 미래를 나다운 속도로 그려볼 수 있게 되었어요.”<footer><b>유○진</b><span>24세 · 인생 그래프</span></footer></article><article>“이제는 다른 사람과 비교하지 않고 마음이 한결 편안해졌어요.”<footer><b>박○희</b><span>28세 · 핵심 감정 검사</span></footer></article></div></section>
       <section id="pricing" className="pricing"><p className="eyebrow">MEMBERSHIP</p><h2>당신에게 맞는 플랜을<br />선택하세요</h2><p>모든 플랜에서 SEED의 핵심 기능을 자유롭게 이용할 수 있습니다.</p><div className="price-grid"><article><h3>월간 구독</h3><p>부담 없이 시작하고 싶다면</p><strong>79,000<small>원 / 월</small></strong><ul><li>전체 콘텐츠 무제한 이용</li><li>커뮤니티 참여 가능</li><li>월간 성장 리포트</li></ul><button onClick={startQuiz}>월간 플랜으로 시작</button></article><article className="featured"><em>가장 인기 있는 선택</em><h3>연간 구독</h3><p>가장 합리적인 선택</p><strong>59,000<small>원 / 월</small></strong><small>연 708,000원 · 25% 이상 할인</small><ul><li>전체 콘텐츠 무제한 이용</li><li>커뮤니티 참여 가능</li><li>월간 성장 리포트</li><li>전문가 1:1 코칭 세션</li></ul><button onClick={startQuiz}>할인받고 시작하기</button></article></div></section>
